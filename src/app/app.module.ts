@@ -29,7 +29,8 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     NgSelectModule,
     FormsModule,
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase),
+    FormsModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
