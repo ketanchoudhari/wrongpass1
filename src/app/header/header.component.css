@@ -1,0 +1,7 @@
+.header{
+    /* box-shadow: 0 0.5rem 1rem 0 #1a1f33; */
+    padding: 27px;
+    background: #2c2424;
+    position: fixed;
+    width: 100%;
+}

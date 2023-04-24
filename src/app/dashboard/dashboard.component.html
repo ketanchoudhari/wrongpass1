@@ -1,0 +1,56 @@
+<div class="main-wrap">
+    <!-- <div class="heading">
+        <span>Casino Game List</span>
+    </div> -->
+    <ul class="input-list">
+        <li>
+          <label for="perio">Period</label>
+        </li>
+        <li class="blockdis">
+          <div class="webhide ">
+            <input id="startDate" class="cal-input" type="text" placeholder="YYYY-MM-DD" autocomplete="off" />
+            <input id="startTime" class="time-input disable" type="text"  placeholder="09:00" maxlength="5" />
+          </div>
+          to &nbsp;
+          <input id="endDate" class="cal-input" type="text" placeholder="YYYY-MM-DD" autocomplete="off" />
+          <input id="endTime" class="time-input disable" type="text" placeholder="08:59" maxlength="5" />
+        </li>
+        <li >
+          <ng-select
+            name="sortCondition"
+            id="sortCondition"
+            
+          >
+            <ng-option value="" selected="selected">Select event</ng-option>
+           
+          </ng-select>
+        </li>
+      </ul>
+    <table class="table table-striped table-responsive">
+        <thead>
+            <tr>
+                <th>Game Name</th>
+                <th>Date</th>
+                <th>Game ID</th>
+                <th>Allow</th>
+                <th>Pause</th>
+                <th>Reverse</th>
+                <th>Void</th>
+                <th>No of bets</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr >
+                <td></td>
+                <td>2022-04-14 04:00:00</td>
+                <td></td>
+                <td> <i class="fa fa-check-circle fa-2x"></i></td>
+                <td><i class="fa fa-play" aria-hidden="true"></i></td>
+                <td><i class="fa fa-refresh" aria-hidden="true"></i></td>
+                <td><button class="voidbtn"  title="Void">V</button></td>
+                <td></td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
