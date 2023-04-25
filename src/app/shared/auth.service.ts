@@ -41,11 +41,20 @@ export class AuthService {
   //sing in with google
   googleSignIn(){
     return this.fireauth.signInWithPopup(new GoogleAuthProvider).then(()=>{
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/main']);
       localStorage.setItem('token',JSON.stringify(this.res.user?.uid));
     },err=>{
       alert(err.message)
     })
   }
 
+  //sing in with facebook
+  facebookSignIn(){
+    return this.fireauth.signInWithPopup(new FacebookAuthProvider).then(()=>{
+      this.router.navigate(['/main']);
+      localStorage.setItem('token',JSON.stringify(this.res.user?.uid));
+    },err=>{
+      alert(err.message)
+    })
+  }
 }

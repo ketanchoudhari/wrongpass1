@@ -1,5 +1,6 @@
+import { AuthService } from './../shared/auth.service';
 import { Component, OnInit } from '@angular/core';
-
+import {GoogleAuthProvider, FacebookAuthProvider} from '@angular/fire/auth'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor(private auth:AuthService) { }
 
   ngOnInit(): void {
     const v: HTMLCanvasElement = document.querySelector("#c")!;
@@ -52,5 +53,11 @@ setInterval(() => {
 }, 50);
 
   }
-
+  // google signin
+  signInWithGoogle(){
+  this.auth.googleSignIn();
+  }
+  singInWithFacebook(){
+    this.auth.facebookSignIn();
+  }
 }

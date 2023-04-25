@@ -3,8 +3,16 @@
   <h1>wrongpass</h1>
   <div class="glass">
     <div class="shine"></div>
-    <img src=".//src/assets/google.png/" />
-    <img src=".//src/assets/facebook.png" />
+    <a (onClick)="signInWithGoogle()">
+    <div class="img-google">
+      <img src=".//src/assets/google.png/" />
+    </div>
+  </a>
+  <a (click)="singInWithFacebook()">
+    <div class="img-facebook">
+      <img src=".//src/assets/facebook.png" />
+    </div>
+    </a>
   </div>
   <!-- <script defer>
     (v = document.querySelector("#c")),
