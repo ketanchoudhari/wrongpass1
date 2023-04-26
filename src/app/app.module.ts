@@ -10,6 +10,9 @@ import { MainComponent } from './main/main.component';
 import { HeaderComponent } from './header/header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DatePipe } from '@angular/common';
+import {HttpClient,HttpClientModule} from '@angular/common/http'
+import { BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+
 
 // import { GamelistComponent } from './gamelist/gamelist.component';
 
@@ -30,7 +33,11 @@ import { FormsModule } from '@angular/forms';
     NgSelectModule,
     FormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    FormsModule
+    FormsModule,
+    BsDatepickerModule.forRoot(),
+    HttpClientModule
+  
+   
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

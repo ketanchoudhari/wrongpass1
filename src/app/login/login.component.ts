@@ -55,9 +55,13 @@ setInterval(() => {
   }
   // google signin
   signInWithGoogle(){
+  // console.log("google click is woring")
   this.auth.googleSignIn();
+
   }
+  // facebook signin
   singInWithFacebook(){
     this.auth.facebookSignIn();
+    
   }
 }

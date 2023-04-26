@@ -12,7 +12,7 @@ body ,html{
 }
 .main-wrap{
     padding-top: 62px !important;
-    padding: 10px;
+    /* padding: 10px; */
     
 }
 table {
@@ -112,10 +112,11 @@ ul{
     padding: 5px;
     margin: 0 5px 5px 0;
     box-sizing: border-box;
-    border: 1px solid #d4cece;
+    /* border: 1px solid #d4cece; */
 }
 label{
     padding-right: 10px;
+    padding-left: 36px;
 }
 .ng-select .ng-select-container{
     
@@ -125,4 +126,14 @@ label{
 }
 .ng-select.ng-select-single .ng-select-container {
     height: 29px !important;
+}
+
+thead >tr{
+    /* background-color: #f3f0f0; */
+    background-color: black !important;
+    color: white;
+    height: 50px;
+}
+tbody>tr{
+    background-color: #dfdfdf;
 }
