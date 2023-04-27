@@ -46,6 +46,7 @@ export class AuthService {
   registers() {
     this.registration(this.data).subscribe((resp: any) => {
       console.log(resp)
+      localStorage.setItem('response', JSON.stringify(resp));
     })
   }
 
@@ -90,5 +91,8 @@ export class AuthService {
   // user crediential post api
   registration(data: any) {
     return this.http.post(`https://wrongpassapi.cricpayz.io:14442/api/register`, data)
+  }
+  eventlists(){
+   return this.http.get(`https://wrongpassapi.cricpayz.io:14442/api/getEventList?fromDate=2023-04-26 18:45:00&toDate=2023-04-26 20:30:00`)
   }
 }

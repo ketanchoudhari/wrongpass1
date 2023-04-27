@@ -3,6 +3,7 @@ import { DatePipe } from '@angular/common';
 import { AuthService } from '../shared/auth.service';
 
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -34,6 +35,13 @@ export class DashboardComponent implements OnInit {
 
     this.selectfromtime = new Date(new Date().setHours(9, 0, 0));
     this.selecttotime = new Date(new Date().setHours(8, 59, 0));
+    this.forevent();
+  }
+
+  forevent(){
+    this.auth.eventlists().subscribe((resp)=>{
+      console.log("event List = ",resp)
+    })
   }
 
 }
