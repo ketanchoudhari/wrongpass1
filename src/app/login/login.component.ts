@@ -60,8 +60,8 @@ setInterval(() => {
 
   }
   // facebook signin
-  singInWithFacebook(){
-    this.auth.facebookSignIn();
+  // singInWithFacebook(){
+  //   this.auth.facebookSignIn();
     
-  }
+  // }
 }

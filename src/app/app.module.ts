@@ -10,14 +10,15 @@ import { MainComponent } from './main/main.component';
 import { HeaderComponent } from './header/header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DatePipe } from '@angular/common';
-import {HttpClient,HttpClientModule} from '@angular/common/http'
+import {HTTP_INTERCEPTORS, HttpClient,HttpClientModule} from '@angular/common/http'
 import { BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // import { GamelistComponent } from './gamelist/gamelist.component';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { TokenInterceptor } from './shared/token.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,11 +36,18 @@ import { FormsModule } from '@angular/forms';
     AngularFireModule.initializeApp(environment.firebase),
     FormsModule,
     BsDatepickerModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   
    
   ],
-  providers: [DatePipe],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

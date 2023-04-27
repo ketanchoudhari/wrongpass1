@@ -137,3 +137,12 @@ thead >tr{
 tbody>tr{
     background-color: #dfdfdf;
 }
+.bs-datepicker-container{
+    padding: 0;
+}
+.bs-datepicker-body{
+    padding: 0;
+}
+.ng-select{
+    width: 13rem;
+}
