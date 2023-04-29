@@ -2,7 +2,7 @@
     /* box-shadow: 0 0.5rem 1rem 0 #1a1f33; */
     padding: 7px;
     background: #2c2424;
-    position: fixed;
+    position: absolute;
     width: 100%;
 }
 
@@ -18,9 +18,9 @@
 
 /* CSS */
 .button-71 {
-  background-color: #0078d0;
+  background-color: #2d3236;
   border: 0;
-  border-radius: 14px;
+  border-radius: 50px;
   color: #fff;
   cursor: pointer;
   display: inline-block;
@@ -43,10 +43,10 @@
 .button-71:before {
   background-color: initial;
   background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
-  border-radius: 125px;
+  border-radius: 50px;
   content: "";
-  height: 50%;
-  left: 4%;
+  height: 90%;
+  left: 2%;
   opacity: .5;
   position: absolute;
   top: 0;
@@ -59,9 +59,10 @@
   transform: scale(1.05);
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .button-71 {
     padding: 5px 10px;
+    margin-left: 60%;
   }
 }
 /* 
@@ -116,3 +117,7 @@ a:hover .logout{
 a {
   text-decoration: none;
 } */
+
+.file-input {
+  display: none;
+}

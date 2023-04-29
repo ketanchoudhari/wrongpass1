@@ -99,15 +99,16 @@ export class AuthService {
   registration(data: any) {
     return this.http.post(`https://wrongpassapi.cricpayz.io:14442/api/register`, data)
   }
+  // evnet list api
   eventlists(fromDate:string,toDate:string){
    return this.http.get(`https://wrongpassapi.cricpayz.io:14442/api/getEventList?fromDate=${fromDate}&toDate=${toDate}`)
   }
-
+// team list api
   getTeamList(fromDate:string,toDate:string,eventid:number){
     return this.http.get(`https://wrongpassapi.cricpayz.io:14442/api/getTeamList?fromDate=${fromDate}&toDate=${toDate}&eventId=${eventid}`)
   }
-
-  vedioUplad(){
-    // return this.http.post(`https://wrongpassapi.cricpayz.io:14442/api/uploadVideo`)
+// upload video api
+  vedioUplad(videoData:any){
+    return this.http.post(`https://wrongpassapi.cricpayz.io:14442/api/uploadVideo`,videoData)
   }
 }

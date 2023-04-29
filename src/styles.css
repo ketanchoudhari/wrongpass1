@@ -9,6 +9,7 @@ body ,html{
     padding: 0;
     margin: 0;
     height: 100%;
+    
 }
 .main-wrap{
     padding-top: 62px !important;
@@ -110,13 +111,14 @@ ul{
     box-shadow: inset 0 1px 0 #b9b5b5;
     border-radius: 4px;
     padding: 5px;
-    margin: 0 5px 5px 0;
+    margin: 15px 0px 0px 0px;
     box-sizing: border-box;
     /* border: 1px solid #d4cece; */
 }
 label{
     padding-right: 10px;
-    padding-left: 36px;
+    padding-left: 20px;
+    margin: 20px 5px 0 0;
 }
 .ng-select .ng-select-container{
     
@@ -126,6 +128,7 @@ label{
 }
 .ng-select.ng-select-single .ng-select-container {
     height: 29px !important;
+    margin: 15px 20px 0px 15px;
 }
 
 thead >tr{
@@ -146,3 +149,55 @@ tbody>tr{
 .ng-select{
     width: 13rem;
 }
+.ng-dropdown-panel{
+    width: 40rem !important;
+}
+.ng-select .ng-select-container{
+    width: 23rem !important;
+}
+
+.pages {
+    margin: 25px 0;
+    text-align: center;
+  }
+  
+  .pages li {
+    display: inline;
+    list-style: none;
+    line-height: 25px;
+    margin-right: 5px
+  }
+  
+  .pages a {
+    display: inline;
+    font-weight: 400;
+    margin: 0;
+    padding: 4px 10px;
+    background: #eee;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    color: #1e1e1e;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 0 8px;
+    text-align: center;
+    cursor: pointer;
+    outline: 0;
+    padding: 4px 10px 4px 10px;
+  }
+  
+  .pages .disable {
+    background: #dfdfdf;
+    color: #999;
+    cursor: not-allowed;
+  }
+  
+  .pages .select {
+    color: #fff;
+    background: #000;
+    border-color: #222;
+  }
+  .ng-select .ng-select-container .ng-value-container .ng-input>input {
+    width: inherit;
+    margin: inherit;
+  }

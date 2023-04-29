@@ -19,6 +19,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { TokenInterceptor } from './shared/token.interceptor';
+import { SearchwrapComponent } from './searchwrap/searchwrap.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +29,7 @@ import { TokenInterceptor } from './shared/token.interceptor';
     MainComponent,
     HeaderComponent,
     DashboardComponent,
+    SearchwrapComponent,
     
   ],
   imports: [
@@ -33,11 +37,12 @@ import { TokenInterceptor } from './shared/token.interceptor';
     AppRoutingModule,
     NgSelectModule,
     FormsModule,
+    NgxPaginationModule,
     AngularFireModule.initializeApp(environment.firebase),
     FormsModule,
     BsDatepickerModule.forRoot(),
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   
    
   ],
