@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../shared/auth.service';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -32,9 +33,11 @@ export class DashboardComponent implements OnInit {
   selctionid: any;
   urlvideo: any;
   videopathValid:any;
+  respTeamList: any;
+  headertest: any;
   // month;
 
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService,private http:HttpClient) {
     this.selectfromdate = new Date(new Date(new Date().setDate(new Date().getDate() - 30)).setHours(9, 0, 0));
     this.selecttodate = new Date(new Date(new Date().setDate(new Date().getDate())).setHours(8, 59, 59));
     this.selectfromtime = new Date(new Date().setHours(0, 0, 0));
@@ -127,6 +130,19 @@ export class DashboardComponent implements OnInit {
     console.log("selection id from change", this.videoSession)
 
   }
+  download(path:any){
+    this.http.get(path, { responseType: 'blob' }).subscribe(
+      (response: Blob) => {
+        // let fileName = response.headers.get('videoPath')
+        const url = URL.createObjectURL(response);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'video.mp4';
+        a.click();
+        URL.revokeObjectURL(url);
+      },)
+
+  }
   onFileSelected(e: any, selectionid: any, eveniddata: any) {
     const file = e.target.files[0];
     if (e.target.files) {
@@ -192,9 +208,11 @@ export class DashboardComponent implements OnInit {
 
     }
     this.auth.getTeamList(data.fromDate, data.toDate, this.eventid).subscribe((resp: any) => {
+      this.respTeamList = resp;
+      this.headertest =resp.headers.get('videoPath')
+      console.log("headers",this.headertest)
 
-
-      console.log("###################")
+      console.log("Game List video",this.gamelist)
       // this.selection= resp.data.selectionId;
       // console.log("selection Id",this.selection)
       // if(this.gamelist.data.videoPath){

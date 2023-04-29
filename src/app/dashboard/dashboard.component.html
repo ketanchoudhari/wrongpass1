@@ -109,14 +109,12 @@
         <!-- <td> <i class="fa fa-check-circle fa-2x"></i></td> -->
         <!-- <td><i class="fa fa-play" aria-hidden="true"></i></td> -->
         <td class="download" style="text-align: center">
-          <input type="file" *ngIf="game.videoPath==null" (change)="onSelectFile($event,game.selectionId,game.eventId,game.videoPath)">
-          <button (click)="uploadfile()">upload</button>
+          <input type="file" class="fileUploadInpur" *ngIf="game.videoPath==null" (change)="onSelectFile($event,game.selectionId,game.eventId,game.videoPath)">
+          <button class="button-30" *ngIf="game.videoPath==null" (click)="uploadfile()">upload<i class="fa fa-upload" aria-hidden="true"></i></button>
           <!-- <button *ngIf="game.videoPath==null" class="button-29" role="button" (click)="upload(game.selectionId)">Upload <i class="fa fa-upload" aria-hidden="true"></i></button> -->
-          <form method="get" action="file.doc" *ngIf="videopathValid">
-            <button  class="download-btn">
-              Download <i class="fa fa-download" aria-hidden="true"></i>
-            </button>
-          </form>
+          <button class="download-btn" *ngIf="game.videoPath !== null" (click)="download(game.videoPath)">
+            Download <i class="fa fa-download" aria-hidden="true"></i>
+          </button>
         </td>
         <!-- <tr><td type="hidden" [value]="game.selectionId"></td></tr> -->
         <!-- <td style="text-align: center"><button class="voidbtn"  title="Void">V</button></td> -->
