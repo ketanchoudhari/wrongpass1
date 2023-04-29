@@ -31,7 +31,7 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  margin: 10px 0 0 11em;
+  margin: 10px 0 0 2em;
   will-change: transform;
 }
 
@@ -148,4 +148,29 @@
 .download-btn:active {
   box-shadow: #3c4fe0 0 3px 7px inset;
   transform: translateY(2px);
+}
+
+@media (max-width:600px) {
+  label{
+    
+    margin: 0;
+  }
+  input{
+    display: flex;
+    flex-direction: column;
+    margin:0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid rgb(54, 50, 50);
+    background-color: white;
+  }
+  .webhide>.toDateLabel{
+    margin: 0 0 0 10px0;
+  }
+  /* input>#date2{
+    margin: 0 0 0 10px !important;
+  } */
+  .button-27{
+    margin: 10px 0 0 11em;
+  }
 }

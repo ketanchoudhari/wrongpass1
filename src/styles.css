@@ -67,6 +67,14 @@ table {
 .input-list {
     display: flex;
 }
+@media (max-width:600px){
+    .input-list{
+        display: block;
+        /* flex: none; */
+        margin: auto;
+
+    }
+}
 .time-input {
     width: 60px;
 }
@@ -76,16 +84,31 @@ table {
 }
 @media (max-width: 750px)
 {
-.webhide {
+.webhide1 {
     width: 100%;
     text-align: end;
     margin-bottom: 10px;
+    display: flex;
 }
+.webhide2 {
+    width: 100%;
+    text-align: end;
+    margin-bottom: 10px;
+    display: flex;
+    margin-left: 0px;
+}
+
+    /* .webhide2>.cal-input{
+        margin-left: 50px !important;
+    } */
+
 }
 @media (max-width: 750px)
 {
 .blockdis {
     display: block!important;
+    margin: 0 0 0 45px;
+
 }
 }
 ul{
@@ -129,6 +152,7 @@ label{
 .ng-select.ng-select-single .ng-select-container {
     height: 29px !important;
     margin: 15px 20px 0px 15px;
+    background-color: white !important;
 }
 
 thead >tr{
@@ -147,7 +171,13 @@ tbody>tr{
     padding: 0;
 }
 .ng-select{
-    width: 13rem;
+    width: 24rem;
+    margin: 0 0 0 20px;
+}
+@media (max-width:700px){
+    .ng-select{
+        margin: 0 0 0 55px;
+    }
 }
 .ng-dropdown-panel{
     width: 40rem !important;
