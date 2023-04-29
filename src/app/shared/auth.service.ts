@@ -49,11 +49,21 @@ export class AuthService {
       // let header = resp.token;
       localStorage.setItem('token',resp.token)
       console.log('google token',resp.token)
-      localStorage.setItem('response', JSON.stringify(resp));
+      // localStorage.setItem('response', JSON.stringify(resp));
        if(resp.token!=null){
-        this.token.setToken(localStorage.getItem('token'))
+         this.token.setToken(localStorage.getItem('token'))
        }
     })
+    return !!localStorage.getItem('token')
+  }
+  authToken(){
+   let tokens= localStorage.getItem('token')
+   if(tokens!==undefined && tokens !== null){
+    return true
+   }
+   else{
+    return false
+   }
   }
  
   //sing in with google
