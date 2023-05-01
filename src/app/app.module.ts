@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 import { MainComponent } from './main/main.component';
 import { HeaderComponent } from './header/header.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClient,HttpClientModule} from '@angular/common/http'
 import { BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 import { TokenInterceptor } from './shared/token.interceptor';
 import { SearchwrapComponent } from './searchwrap/searchwrap.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     NgSelectModule,
@@ -43,6 +45,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     BsDatepickerModule.forRoot(),
     HttpClientModule,
     BrowserAnimationsModule,
+    ToastrModule
   
    
   ],
