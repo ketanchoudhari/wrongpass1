@@ -131,7 +131,9 @@ export class DashboardComponent implements OnInit {
 
   }
   download(path:any){
-    this.http.get(path, { responseType: 'blob' }).subscribe(
+    const staticDomain='https://wrongpassapi.cricpayz.io/';
+    const downloadUrl = staticDomain + path;
+    this.http.get(downloadUrl, { responseType: 'blob' }).subscribe(
       (response: Blob) => {
         // let fileName = response.headers.get('videoPath')
         const url = URL.createObjectURL(response);
