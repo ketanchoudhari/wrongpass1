@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../shared/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { NgProgress } from 'ngx-progressbar';
 // import { VideoEncoder } from 'video-encoder';
 
 
@@ -36,10 +37,15 @@ export class DashboardComponent implements OnInit {
   urlvideo: any;
   videopathValid:any;
   respTeamList: any;
-  headertest: any;
+  // headertest: any;
   // month;
   fileName=""
-  constructor(private auth: AuthService,private http:HttpClient) {
+  progressRef: any;
+  showProgressBar: boolean = false;
+progressValue: number = 0;
+  progressEvent: any;
+
+  constructor(private auth: AuthService,private http:HttpClient,private progress: NgProgress) {
     this.selectfromdate = new Date(new Date(new Date().setDate(new Date().getDate() - 30)).setHours(9, 0, 0));
     this.selecttodate = new Date(new Date(new Date().setDate(new Date().getDate())).setHours(8, 59, 59));
     this.selectfromtime = new Date(new Date().setHours(0, 0, 0));
@@ -121,7 +127,7 @@ export class DashboardComponent implements OnInit {
 
       this.gamelist = resp.data;
       // this.videoNull= resp.data.videoPath;
-      console.log(this.gamelist, "data");
+      // console.log(this.gamelist, "data");
 
       // console.log("video null or not",this.videoNull)
     })
@@ -186,30 +192,46 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  uploadfile() {
+  uploadfile(game: any,progressContainerId: any) {
+    this.progressEvent =progressContainerId;
+    console.log("progressEvent ",this.progressEvent )
+    this.showProgressBar = true;
+    this.progressRef = this.progress.ref('myProgress');
+    this.progressRef.start();
     let body = new FormData();
-      body.append('video', this.urlvideo),
-      body.append('selectionId', this.selctionid),
-      body.append('eventId', this.eventiddata),
-     console.log(body)
-    this.auth.vedioUplad(body).subscribe(async (resp: any) => {
-      console.log("response form video api", resp)
+    body.append('video', this.urlvideo),
+    body.append('selectionId', game.selectionId),
+    body.append('eventId', game.eventId),
+    this.auth.vedioUplad(body).subscribe((resp: any) => {
+      this.progressRef.complete();
+      console.log("video response form upload file", resp);
+      this.showProgressBar = false;
+    }, (error: any) => {
+      console.error("video upload error", error);
+      this.showProgressBar = false;
+    }, () => {
+      // Progress callback
+      this.progressValue = Math.round((this.progressRef.current / this.progressRef.maximum) * 100);
+    });
 
-    })
+    this.ngOnInit()
   }
+
   onFileSelected(event:any) {
     const file: File = event.target.files[0];
     console.log(file)
     if (file) {
       this.fileName = file.name;
+      this.urlvideo = file;
+      // const formData = new FormData();
 
-      const formData = new FormData();
-
-      formData.append("video", file),
-        formData.append("eventId", "32296841"),
-        formData.append("selectionId", "3455677")
-      this.auth.vedioUplad(formData).subscribe((res: any) => {
-      })
+      // formData.append("video", file),
+      //   formData.append("eventId", "32296841"),
+      //   formData.append("selectionId", "3455677")
+      // this.auth.vedioUplad(formData).subscribe((res: any) => {
+      //   console.log(res);
+        
+      // })
       // const upload$ = this.http.post("/https://wrongpassapi.cricpayz.io:14442/api/uploadVideo", formData);
 
       // upload$.subscribe();
@@ -223,8 +245,8 @@ export class DashboardComponent implements OnInit {
     }
     this.auth.getTeamList(data.fromDate, data.toDate, this.eventid).subscribe((resp: any) => {
       this.respTeamList = resp;
-      this.headertest =resp.headers.get('videoPath')
-      console.log("headers",this.headertest)
+      // this.headertest =resp.headers.get('videoPath')
+      // console.log("headers",this.headertest)
 
       console.log("Game List video",this.gamelist)
       // this.selection= resp.data.selectionId;

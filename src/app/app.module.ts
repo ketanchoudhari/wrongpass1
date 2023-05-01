@@ -22,6 +22,7 @@ import { TokenInterceptor } from './shared/token.interceptor';
 import { SearchwrapComponent } from './searchwrap/searchwrap.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ToastrModule } from 'ngx-toastr';
+import { NgProgressModule } from 'ngx-progressbar';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ToastrModule } from 'ngx-toastr';
     BsDatepickerModule.forRoot(),
     HttpClientModule,
     BrowserAnimationsModule,
-    ToastrModule
+    ToastrModule,
+    NgProgressModule
   
    
   ],

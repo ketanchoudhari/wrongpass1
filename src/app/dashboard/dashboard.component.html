@@ -110,9 +110,19 @@
         <!-- <td><i class="fa fa-play" aria-hidden="true"></i></td> -->
         <td class="download" style="text-align: center">
           <input type="file" class="file-upload" *ngIf="game.videoPath==null" onchange="console.log(event.target.files)" (change)="onFileSelected($event)">
-          <!-- <input type="file" class="fileUploadInpur" *ngIf="game.videoPath==null" (change)="onSelectFile($event,game.selectionId,game.eventId,game.videoPath)"> -->
-          <button class="button-30" *ngIf="game.videoPath==null" (click)="uploadfile()">Upload<i class="fa fa-upload" aria-hidden="true"></i></button>
-          <!-- <button *ngIf="game.videoPath==null" class="button-29" role="button" (click)="upload(game.selectionId)">Upload <i class="fa fa-upload" aria-hidden="true"></i></button> -->
+          <div style="display: flex; align-items: center;">
+            <div class="upload-container">
+              <!-- <button class="button-30" *ngIf="game.videoPath==null" (click)="uploadfile(game)">Upload<i class="fa fa-upload" aria-hidden="true"></i></button> -->
+              <button class="button-30" *ngIf="game.videoPath==null" (click)="uploadfile(game, game.selectionId)">Upload<i class="fa fa-upload" aria-hidden="true"></i></button>
+
+              <div class="progress-container" *ngIf="showProgressBar && game.videoPath == null && game.selectionId==progressEvent">
+                <div class="progress-value" [style.width.%]="progressValue"></div>
+                <div class="progress-text">{{progressValue}}%</div>
+              </div>
+          </div>
+            
+           
+          </div>
           <button class="download-btn" *ngIf="game.videoPath !== null" (click)="download(game.videoPath)">
             Download <i class="fa fa-download" aria-hidden="true"></i>
           </button>
