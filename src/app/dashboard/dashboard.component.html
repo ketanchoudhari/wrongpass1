@@ -48,24 +48,16 @@
       />
     </div>
     </li>
-    <li>
-      <ng-select
+    <li >
+      <label class="toDateLabel">Search</label>
+      <input
         name="sortCondition"
         id="sortCondition"
-        (change)="onchange($event)"
-        [(ngModel)]="searchTeam"
-      >
-        <ng-option value="" selected="selected">Select event</ng-option>
-        <ng-option
-          *ngFor="let event of listevent?.data"
-          [value]="event.eventName"
-          [value]="event.eventId"
-          >{{ event.eventName }} --- {{ event.dateTime | date }}
-          {{ event.eventId }}</ng-option
-        >
-      </ng-select>
+        (ngModelChange)="search($event)"
+        [(ngModel)]="searchTerm"
+      >  
     </li>
-    <button class="button-27" role="button" (click)="getitemlist()">
+    <button class="button-27" role="button" (click)="getEventList()">
       Get Data
     </button>
   </ul>
@@ -74,7 +66,6 @@
       <tr>
         <th class="head-items">Event ID</th>
         <th class="head-items">Event Name</th>
-        <th class="head-items">Runner Name</th>
         <th class="head-items">Date</th>
         <th class="head-items">Action</th>
       </tr>
@@ -82,14 +73,13 @@
     <tbody>
       <tr
         *ngFor="
-          let game of gamelist | paginate : { itemsPerPage: 10, currentPage: p }
+          let game of filteredEventList | paginate : { itemsPerPage: 10, currentPage: p }
         "
       >
         <td style="text-align: center">{{ game.eventId }}</td>
         <td style="text-align: center">{{ game.eventName }}</td>
-        <td style="text-align: center; padding: 15px">{{ game.runnerName }}</td>
         <td style="text-align: center">
-          {{ game.eventDate | date : "yyyy-MM-dd HH:mm:ss" }}
+          {{ game.dateTime | date : "yyyy-MM-dd HH:mm:ss" }}
         </td>
         <td class="download" style="text-align: center">
           <input type="file" class="file-upload" *ngIf="game.videoPath==null" onchange="console.log(event.target.files)" (change)="onFileSelected($event,game)">
@@ -101,15 +91,43 @@
           </div>
           </div>
           <mat-progress-bar *ngIf="game.showProgressBar" class="progress" mode="determinate" [value]="game.progress"></mat-progress-bar>           
-          <button class="download-btn" *ngIf="game.videoPath !== null" (click)="download(game.videoPath)">
+          <button class="download-btn" *ngIf="game.videoPath !== null" (click)="download(game)">
             Download <i class="fa fa-download" aria-hidden="true"></i>
           </button>
+          <div class="download-loader" *ngIf="game.showLoader && game.videoPath !== null"  >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="#2589d0">
+              <circle cx="12" cy="2" r="2" opacity=".1">
+                  <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin="0"/>
+              </circle>
+              <circle transform="rotate(45 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                  <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".125s"/>
+              </circle>
+              <circle transform="rotate(90 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                  <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".25s"/>
+              </circle>
+              <circle transform="rotate(135 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                  <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".375s"/>
+              </circle>
+              <circle transform="rotate(180 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                  <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".5s"/>
+              </circle>
+              <circle transform="rotate(225 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                  <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".625s"/>
+              </circle>
+              <circle transform="rotate(270 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                  <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".75s"/>
+              </circle>
+              <circle transform="rotate(315 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                  <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".875s"/>
+              </circle>
+          </svg>
+          </div>
         </td>
       </tr>
     </tbody>
   </table>
   <pagination-template
-    *ngIf="gamelist && gamelist.length > 10"
+    *ngIf="filteredEventList && filteredEventList.length > 10"
     #pagination="paginationApi"
     (pageChange)="p = $event"
   >

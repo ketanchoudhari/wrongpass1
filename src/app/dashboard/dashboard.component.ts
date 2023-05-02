@@ -4,10 +4,6 @@ import { AuthService } from '../shared/auth.service';
 import { HttpClient, HttpEventType } from '@angular/common/http';
 import { ToasterMessageService } from '../shared/toaster-message.service';
 
-// import { VideoEncoder } from 'video-encoder';
-
-
-
 
 @Component({
   selector: 'app-dashboard',
@@ -19,31 +15,11 @@ export class DashboardComponent implements OnInit {
   selecttodate: Date;
   selectfromtime: Date;
   selecttotime: Date;
-  listevent: any =[];
-  searchResult = [];
-  events: any[] = []; // this should be populated with the events from your API
-  searchTeam: string = '';
-  eventid: any = '';
+  searchTerm: string = '';
   gamelist: any = [];
-  videoNull: any = '';
-  videoSession: any;
+  filteredEventList: any = [];
   p: number = 1;
-  selection: any;
-  // fileToUpload: File | null = null;
-  // vidEventId: any;
-  // file: any;
-  // eventiddata: any;
-  // selctionid: any;
-  // urlvideo: any;
-  videopathValid:any;
-  // respTeamList: any;
-  // headertest: any;
-  // month;
-//   fileName=""
-  progressRef: any;
-//   showProgressBar: boolean = false;
-progressValue: number = 0;
-//   progressEvent: any;
+  showLoader: boolean=false;
 
   constructor(private auth: AuthService,
     private http:HttpClient,
@@ -56,11 +32,8 @@ progressValue: number = 0;
   }
 
   ngOnInit(): void {
-    this.forevent();
-    this.getitemlist();
-
+    this.getEventList();
   }
-
 
   getFromDateAndTime() {
     return `${this.selectfromdate.getFullYear()}-${this.selectfromdate.getMonth() + 1}-${this.selectfromdate.getDate()} ${this.selectfromdate.getHours()}:${this.selectfromdate.getMinutes()}:${this.selectfromdate.getSeconds()}`;
@@ -70,36 +43,21 @@ progressValue: number = 0;
     return `${this.selecttodate.getFullYear()}-${this.selecttodate.getMonth() + 1}-${this.selecttodate.getDate()} ${this.selecttodate.getHours()}:${this.selecttodate.getMinutes()}:${this.selecttodate.getSeconds()}`;
   }
 
-  forevent() {
+  search(e: any) {
+    if(e.length>0){
+      this.filteredEventList = this.gamelist.filter((item: any) => item.eventName.toLowerCase().includes(e.toLowerCase()));
+    }
+    else{
+      this.filteredEventList = this.gamelist
+    }
+  }
+
+  getEventList() {
     let data = {
       "fromDate": this.getFromDateAndTime(),
       "toDate": this.getToDateAndTime()
     }
-    this.auth.eventlists(data.fromDate, data.toDate).subscribe((resp) => {
-      this.listevent = resp
-
-      // console.log("event List = ", resp)
-      this.filterEvents()
-    })
-  }
-
-  filterEvents() {
-    // use the listevent array to filter the events based on the event name
-    if(this.listevent.length>0){
-      this.events = this.listevent.filter((event: { name: string; }) => event.name.toLowerCase().includes(this.searchTeam.toLowerCase()));
-    }
-  }
-  onchange(e: any) {
-    this.eventid = e;
-    // console.log("event Id on Onchange search list", this.eventid)
-    this.getitemlist();
-  }
-  getitemlist() {
-    let data = {
-      "fromDate": this.getFromDateAndTime(),
-      "toDate": this.getToDateAndTime()
-    }
-    this.auth.getTeamList(data.fromDate, data.toDate, this.eventid).subscribe((resp: any) => {
+    this.auth.getEventList(data.fromDate, data.toDate).subscribe((resp: any) => {
 
       this.gamelist = resp.data;
       this.gamelist.forEach((element:any) => {        
@@ -116,25 +74,23 @@ progressValue: number = 0;
           element['progress'] = 0
         }
       });
-      // this.videoNull= resp.data.videoPath;
-      // console.log(this.gamelist, "data");
-
-      // console.log("video null or not",this.videoNull)
+      this.filteredEventList = this.gamelist;
     })
   }
 
-  // upload(e: any) {
-  //   this.videoSession = e;
-  //   console.log("selection id from change", this.videoSession)
-
-  // }
-  download(path:any){
+  download(game:any){
+    game.showLoader=true;
+    // this.showLoader = true;
     const staticDomain='https://wrongpassapi.cricpayz.io/';
-    const downloadUrl = staticDomain + path;
+    const downloadUrl = staticDomain + game.videoPath;
     this.http.get(downloadUrl, { responseType: 'blob' }).subscribe(
       (response: Blob) => {
         // let fileName = response.headers.get('videoPath')
         const url = URL.createObjectURL(response);
+        // console.log("response of download",response)
+        if(response.size){
+          game.showLoader = false;
+        }
         const a = document.createElement('a');
         a.href = url;
         a.download = 'video.mp4';
@@ -144,33 +100,12 @@ progressValue: number = 0;
 
   }
 
-  // onSelectFile(e: any, selectionid: any, eveniddata: any,videopath:any) {
-  //   if(videopath!==null){
-
-  //   }
-  //   const file = e.target.files && e.target.files[0];
- 
-  //   console.log("onSelectFile ",file)
-  //   if (file) {
-
-  //     var reader = new FileReader();
-  //     reader.readAsDataURL(file);
-  //     console.log("file reader ",reader)
-  //     reader.onload = (event) => {
-  //       e.urlvideo = (<FileReader>event.target).result;
-  //     }
-  //   }
-  //   console.log("video url data ",e.urlvideo)
-  // }
-
   uploadfile(game: any) {
     game.showProgressBar = true;
     let body = new FormData();
     body.append('video', game.urlvideo),
-    body.append('selectionId', game.selectionId),
     body.append('eventId', game.eventId),
     this.auth.vedioUpload(body ).subscribe((event: any) => {
-      // console.log(event);
       
       if (event.type === HttpEventType.UploadProgress) {
         game.progress = Math.round((100 * event.loaded) / event.total);
@@ -179,19 +114,16 @@ progressValue: number = 0;
         this.toastServ.showInfo('Video uploaded successfully')
       }  
     }, (error: any) => {
-      console.error("video upload error", error);
       game.showProgressBar = false;
     });
   }
 
   onFileSelected(event:any,game:any) {
     const file: File = event.target.files[0];
-    // console.log(file)
     if (file) {
       game.fileName = file.name;
       game.urlvideo = file;
     }
-    // console.log(game)
   }
 }
 

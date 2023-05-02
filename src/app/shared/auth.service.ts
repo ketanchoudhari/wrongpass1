@@ -14,6 +14,7 @@ import { ToasterMessageService } from './toaster-message.service';
 export class AuthService {
   firebaseId: string | undefined;
   data: any
+  baseURL='https://wrongpassapi.cricpayz.io:14442/api';
   constructor(private fireauth: AngularFireAuth,
      private router: Router
      , private http: HttpClient,
@@ -49,7 +50,7 @@ export class AuthService {
       this.router.navigate(['/'])
       this.toastServ.showWarning("Logout Successfully")
     }, err => {
-      alert(err.message);
+      console.log(err.message);
     })
   }
 
@@ -57,8 +58,6 @@ export class AuthService {
     this.registration(this.data).subscribe((resp: any) => {
       // let header = resp.token;
       localStorage.setItem('token',resp.token)
-      // console.log('google token',resp.token)
-      // localStorage.setItem('response', JSON.stringify(resp));
        if(resp.token!=null){
          this.token.setToken(localStorage.getItem('token'))
        }
@@ -99,36 +98,22 @@ export class AuthService {
 
       this.router.navigate(['/main']);
     }, err => {
-      alert(err.message)
+      if(err.code!='auth/popup-closed-by-user'){
+        console.log(err.message)
+      }
     })
   }
-
-  //sing in with facebook
-  // facebookSignIn() {
-  //   return this.fireauth.signInWithPopup(new FacebookAuthProvider).then((res) => {
-  //     this.router.navigate(['/main']);
-  //     localStorage.setItem('token', JSON.stringify(res.user?.uid));
-  //   }, err => {
-  //     alert(err.message)
-  //   })
-
-
-  // }
-
   // user crediential post api
   registration(data: any) {
-    return this.http.post(`https://wrongpassapi.cricpayz.io:14442/api/register`, data)
+    return this.http.post(`${this.baseURL}/register`, data)
   }
-  // evnet list api
-  eventlists(fromDate:string,toDate:string){
-   return this.http.get(`https://wrongpassapi.cricpayz.io:14442/api/getEventList?fromDate=${fromDate}&toDate=${toDate}`)
-  }
-// team list api
-  getTeamList(fromDate:string,toDate:string,eventid:number){
-    return this.http.get(`https://wrongpassapi.cricpayz.io:14442/api/getTeamList?fromDate=${fromDate}&toDate=${toDate}&eventId=${eventid}`)
+
+// event list api
+  getEventList(fromDate:string,toDate:string){
+    return this.http.get(`${this.baseURL}/getTeamList?fromDate=${fromDate}&toDate=${toDate}`)
   }
 // upload video api
   vedioUpload(videoData:any){
-    return this.http.post(`https://wrongpassapi.cricpayz.io:14442/api/uploadVideo`,videoData,{reportProgress: true, observe: 'events'})
+    return this.http.post(`${this.baseURL}/uploadVideo`,videoData,{reportProgress: true, observe: 'events'})
   }
 }
