@@ -22,7 +22,8 @@ import { TokenInterceptor } from './shared/token.interceptor';
 import { SearchwrapComponent } from './searchwrap/searchwrap.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ToastrModule } from 'ngx-toastr';
-import { NgProgressModule } from 'ngx-progressbar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
 
 @NgModule({
   declarations: [
@@ -46,10 +47,10 @@ import { NgProgressModule } from 'ngx-progressbar';
     BsDatepickerModule.forRoot(),
     HttpClientModule,
     BrowserAnimationsModule,
-    ToastrModule,
-    NgProgressModule
-  
-   
+    ToastrModule.forRoot({
+      positionClass :'toast-top-right'
+    }),
+    MatProgressBarModule
   ],
   providers: [
     {

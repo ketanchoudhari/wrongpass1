@@ -266,6 +266,7 @@
   background-color: #f5f5f5;
   border-radius: 50px;
   overflow: hidden;
+  margin:25px 0 0 5px;
 }
 
 .progress-value {
@@ -273,7 +274,7 @@
   top: 0;
   left: 0;
   height: 100%;
-  background-color: #007bff;
+  background-color: #22c100;
   border-radius: 50px;
   animation: progress 3s;
 }
@@ -281,8 +282,18 @@
 .progress-text {
   margin-left: auto;
   color: #555;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: bold;
+}
+
+.cursor{
+  cursor: not-allowed;
+}
+
+.progress{
+  align-self: center;
+  max-width: 138px;
+  margin: 10px 0 0 16px;
 }
 
 @keyframes progress {

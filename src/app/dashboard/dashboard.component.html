@@ -26,14 +26,6 @@
           }"
           class="mx-input"
         />
-
-        <!-- <input
-          id="startTime"
-          class="time-input disable"
-          type="text"
-          placeholder="00:00"
-          maxlength="5"
-        /> -->
       </div>
       <div class="webhide2">
       <label class="toDateLabel">to Date</label>
@@ -55,20 +47,13 @@
         class="mx-input"
       />
     </div>
-      <!-- <input
-        id="endTime"
-        class="time-input disable"
-        type="text"
-        placeholder="00:00"
-        maxlength="5"
-      /> -->
     </li>
     <li>
       <ng-select
         name="sortCondition"
         id="sortCondition"
         (change)="onchange($event)"
-        [(ngModel)]="searchTerm"
+        [(ngModel)]="searchTeam"
       >
         <ng-option value="" selected="selected">Select event</ng-option>
         <ng-option
@@ -106,29 +91,20 @@
         <td style="text-align: center">
           {{ game.eventDate | date : "yyyy-MM-dd HH:mm:ss" }}
         </td>
-        <!-- <td> <i class="fa fa-check-circle fa-2x"></i></td> -->
-        <!-- <td><i class="fa fa-play" aria-hidden="true"></i></td> -->
         <td class="download" style="text-align: center">
-          <input type="file" class="file-upload" *ngIf="game.videoPath==null" onchange="console.log(event.target.files)" (change)="onFileSelected($event)">
+          <input type="file" class="file-upload" *ngIf="game.videoPath==null" onchange="console.log(event.target.files)" (change)="onFileSelected($event,game)">
           <div style="display: flex; align-items: center;">
             <div class="upload-container">
               <!-- <button class="button-30" *ngIf="game.videoPath==null" (click)="uploadfile(game)">Upload<i class="fa fa-upload" aria-hidden="true"></i></button> -->
-              <button class="button-30" *ngIf="game.videoPath==null" (click)="uploadfile(game, game.selectionId)">Upload<i class="fa fa-upload" aria-hidden="true"></i></button>
+              <button class="button-30" [ngClass]="game.urlvideo==null?'cursor':''" *ngIf="game.videoPath==null && !game.showProgressBar" [disabled]="game.urlvideo==null"   (click)="uploadfile(game)">Upload<i class="fa fa-upload" aria-hidden="true"></i></button>
 
-              <div class="progress-container" *ngIf="showProgressBar && game.videoPath == null && game.selectionId==progressEvent">
-                <div class="progress-value" [style.width.%]="progressValue"></div>
-                <div class="progress-text">{{progressValue}}%</div>
-              </div>
           </div>
-            
-           
           </div>
+          <mat-progress-bar *ngIf="game.showProgressBar" class="progress" mode="determinate" [value]="game.progress"></mat-progress-bar>           
           <button class="download-btn" *ngIf="game.videoPath !== null" (click)="download(game.videoPath)">
             Download <i class="fa fa-download" aria-hidden="true"></i>
           </button>
         </td>
-        <!-- <tr><td type="hidden" [value]="game.selectionId"></td></tr> -->
-        <!-- <td style="text-align: center"><button class="voidbtn"  title="Void">V</button></td> -->
       </tr>
     </tbody>
   </table>

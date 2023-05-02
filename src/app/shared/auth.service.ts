@@ -5,6 +5,8 @@ import { GoogleAuthProvider, GithubAuthProvider, FacebookAuthProvider } from '@a
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { TokenService } from './token.service';
+import { ToastrService } from 'ngx-toastr';
+import { ToasterMessageService } from './toaster-message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,13 @@ import { TokenService } from './token.service';
 export class AuthService {
   firebaseId: string | undefined;
   data: any
-  constructor(private fireauth: AngularFireAuth, private router: Router, private http: HttpClient,private token: TokenService) {
+  constructor(private fireauth: AngularFireAuth,
+     private router: Router
+     , private http: HttpClient,
+     private token: TokenService,
+     private toastr : ToastrService,
+     private toastServ:ToasterMessageService
+     ) {
   }
   // login(email: string, password: string) {
   //   this.fireauth.signInWithEmailAndPassword(email, password).then(() => {
@@ -39,6 +47,7 @@ export class AuthService {
     this.fireauth.signOut().then(() => {
       localStorage.removeItem('token')
       this.router.navigate(['/'])
+      this.toastServ.showWarning("Logout Successfully")
     }, err => {
       alert(err.message);
     })
@@ -48,7 +57,7 @@ export class AuthService {
     this.registration(this.data).subscribe((resp: any) => {
       // let header = resp.token;
       localStorage.setItem('token',resp.token)
-      console.log('google token',resp.token)
+      // console.log('google token',resp.token)
       // localStorage.setItem('response', JSON.stringify(resp));
        if(resp.token!=null){
          this.token.setToken(localStorage.getItem('token'))
@@ -78,6 +87,7 @@ export class AuthService {
 
       // console.log(res.user)
       if (this.data.firebaseId) {
+        this.toastServ.showSuccess('Login Successfully');
         this.registers();
 
       }
@@ -118,7 +128,7 @@ export class AuthService {
     return this.http.get(`https://wrongpassapi.cricpayz.io:14442/api/getTeamList?fromDate=${fromDate}&toDate=${toDate}&eventId=${eventid}`)
   }
 // upload video api
-  vedioUplad(videoData:any){
-    return this.http.post(`https://wrongpassapi.cricpayz.io:14442/api/uploadVideo`,videoData)
+  vedioUpload(videoData:any){
+    return this.http.post(`https://wrongpassapi.cricpayz.io:14442/api/uploadVideo`,videoData,{reportProgress: true, observe: 'events'})
   }
 }
