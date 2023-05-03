@@ -33,7 +33,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     HeaderComponent,
     DashboardComponent,
     SearchwrapComponent,
-    
+
   ],
   imports: [
     CommonModule,
@@ -50,7 +50,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     ToastrModule.forRoot({
       positionClass :'toast-top-right'
     }),
-    MatProgressBarModule
+    MatProgressBarModule,
+    
   ],
   providers: [
     {

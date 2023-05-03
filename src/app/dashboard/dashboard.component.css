@@ -201,7 +201,7 @@
 
 @media (max-width:600px) {
   label{
-    
+
     margin: 0;
   }
   input{
@@ -308,4 +308,8 @@
 .download-loader>svg{
   height: 25px;
   margin: 15px 0 0 10px;
+}
+.noEvent
+{
+  text-align: center;
 }
