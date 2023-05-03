@@ -1,7 +1,15 @@
 <div class="main-wrap">
-  <!-- <div class="heading">
-        <span>Casino Game List</span>
-    </div> -->
+  <!-- <div class="loading"></div> -->
+  <div id="preloader" *ngIf="isLoading">
+    <div class="container">
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="circle"></div>
+      <div class="shadow"></div>
+      <div class="shadow"></div>
+      <div class="shadow"></div>
+    </div>
+  </div>
   <ul class="input-list">
     <!-- <li>
       <label for="perio">From Date</label>
@@ -9,52 +17,27 @@
     <li class="blockdis">
       <div class="webhide1">
         <label for="perio">From Date</label>
-        <input
-          id="date1"
-          name="date"
-          id="startDate"
-          class="cal-input"
-          type="text"
-          placeholder="YYYY-MM-DD"
-          bsDatepicker
-          [(ngModel)]="selectfromdate"
-          [bsConfig]="{
+        <input id="date1" name="date" id="startDate" class="cal-input" type="text" placeholder="YYYY-MM-DD" bsDatepicker
+          [(ngModel)]="selectfromdate" [bsConfig]="{
             dateInputFormat: 'DD-MM-YYYY',
             containerClass: 'theme-default',
             isAnimated: true
-          }"
-          class="mx-input"
-        />
+          }" class="mx-input" />
       </div>
       <div class="webhide2">
         <label class="toDateLabel">to Date</label>
         <!-- <input id="endDate" class="cal-input" type="text" placeholder="YYYY-MM-DD" autocomplete="off" /> -->
-        <input
-          id="date2"
-          name="date"
-          id="endDate"
-          class="cal-input"
-          type="text"
-          placeholder="YYYY-MM-DD"
-          bsDatepicker
-          [(ngModel)]="selecttodate"
-          [bsConfig]="{
+        <input id="date2" name="date" id="endDate" class="cal-input" type="text" placeholder="YYYY-MM-DD" bsDatepicker
+          [(ngModel)]="selecttodate" [bsConfig]="{
             dateInputFormat: 'DD-MM-YYYY',
             containerClass: 'theme-default',
             isAnimated: true
-          }"
-          class="mx-input"
-        />
+          }" class="mx-input" />
       </div>
     </li>
-    <li>
+    <li class="mob-flex">
       <label class="toDateLabel">Search</label>
-      <input
-        name="sortCondition"
-        id="sortCondition"
-        (ngModelChange)="search($event)"
-        [(ngModel)]="searchTerm"
-      />
+      <input name="sortCondition" id="sortCondition" (ngModelChange)="search($event)" [(ngModel)]="searchTerm" />
     </li>
     <button class="button-27" role="button" (click)="getEventList()">
       Get Data
@@ -71,188 +54,61 @@
       </tr>
     </thead>
     <tbody *ngIf="gamelist">
-      <div *ngIf="isLoading">
-        <div class="loading"></div>
-        <!-- <p>Loading...</p> -->
-      </div>
-      <tr
-        *ngFor="
+      <tr *ngFor="
           let game of filteredEventList
-            | paginate : { itemsPerPage: 10, currentPage: p }
-        "
-      >
+            | paginate : { itemsPerPage: 10, currentPage: p };let indexs = index
+        ">
         <td style="text-align: center">{{ game.eventId }}</td>
         <td style="text-align: center">{{ game.eventName }}</td>
         <td style="text-align: center">
           {{ game.dateTime | date : "yyyy-MM-dd HH:mm:ss" }}
         </td>
         <td class="download" style="text-align: center">
-          <input
-            type="file"
-            class="file-upload"
-            *ngIf="game.videoPath == null"
-            onchange="console.log(event.target.files)"
-            (change)="onFileSelected($event, game)"
-          />
+          <input type="file" class="file-upload" *ngIf="game.videoPath == null"
+             (change)="onFileSelected($event, game)" />
           <div style="display: flex; align-items: center">
             <div class="upload-container">
               <!-- <button class="button-30" *ngIf="game.videoPath==null" (click)="uploadfile(game)">Upload<i class="fa fa-upload" aria-hidden="true"></i></button> -->
-              <button
-                class="button-30"
-                [ngClass]="game.urlvideo == null ? 'cursor' : ''"
-                *ngIf="game.videoPath == null && !game.showProgressBar"
-                [disabled]="game.urlvideo == null"
-                (click)="uploadfile(game)"
-              >
+              <button class="button-30" [ngClass]="game.urlvideo == null ? 'cursor' : ''"
+                *ngIf="game.videoPath == null && !game.showProgressBar" [disabled]="game.urlvideo == null "
+                (click)="uploadfile(game)">
                 Upload<i class="fa fa-upload" aria-hidden="true"></i>
               </button>
             </div>
           </div>
-          <mat-progress-bar
-            *ngIf="game.showProgressBar"
-            class="progress"
-            mode="determinate"
-            [value]="game.progress"
-          ></mat-progress-bar>
-          <button
-            class="download-btn"
-            *ngIf="game.videoPath !== null"
-            (click)="download(game)"
-          >
+          <mat-progress-bar *ngIf="game.showProgressBar" class="progress" mode="determinate"
+            [value]="game.progress"></mat-progress-bar>
+          <button class="download-btn" *ngIf="game.videoPath!==null" (click)="download(game)">
             Download <i class="fa fa-download" aria-hidden="true"></i>
           </button>
-          <div
-            class="download-loader"
-            *ngIf="game.showLoader && game.videoPath !== null"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width="48"
-              height="48"
-              fill="#2589d0"
-            >
+          <!-- <button class="download-btn" *ngIf="game.videoPath && !game.showtimerdiv" (click)="download(game)">
+            Download <i class="fa fa-download" aria-hidden="true"></i>
+          </button> -->
+          <div class="download-loader" *ngIf="game.showLoader && game.videoPath !== null">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48" fill="#2589d0">
               <circle cx="12" cy="2" r="2" opacity=".1">
-                <animate
-                  attributeName="opacity"
-                  from="1"
-                  to=".1"
-                  dur="1s"
-                  repeatCount="indefinite"
-                  begin="0"
-                />
+                <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin="0" />
               </circle>
-              <circle
-                transform="rotate(45 12 12)"
-                cx="12"
-                cy="2"
-                r="2"
-                opacity=".1"
-              >
-                <animate
-                  attributeName="opacity"
-                  from="1"
-                  to=".1"
-                  dur="1s"
-                  repeatCount="indefinite"
-                  begin=".125s"
-                />
+              <circle transform="rotate(45 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".125s" />
               </circle>
-              <circle
-                transform="rotate(90 12 12)"
-                cx="12"
-                cy="2"
-                r="2"
-                opacity=".1"
-              >
-                <animate
-                  attributeName="opacity"
-                  from="1"
-                  to=".1"
-                  dur="1s"
-                  repeatCount="indefinite"
-                  begin=".25s"
-                />
+              <circle transform="rotate(90 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".25s" />
               </circle>
-              <circle
-                transform="rotate(135 12 12)"
-                cx="12"
-                cy="2"
-                r="2"
-                opacity=".1"
-              >
-                <animate
-                  attributeName="opacity"
-                  from="1"
-                  to=".1"
-                  dur="1s"
-                  repeatCount="indefinite"
-                  begin=".375s"
-                />
+              <circle transform="rotate(135 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".375s" />
               </circle>
-              <circle
-                transform="rotate(180 12 12)"
-                cx="12"
-                cy="2"
-                r="2"
-                opacity=".1"
-              >
-                <animate
-                  attributeName="opacity"
-                  from="1"
-                  to=".1"
-                  dur="1s"
-                  repeatCount="indefinite"
-                  begin=".5s"
-                />
+              <circle transform="rotate(180 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".5s" />
               </circle>
-              <circle
-                transform="rotate(225 12 12)"
-                cx="12"
-                cy="2"
-                r="2"
-                opacity=".1"
-              >
-                <animate
-                  attributeName="opacity"
-                  from="1"
-                  to=".1"
-                  dur="1s"
-                  repeatCount="indefinite"
-                  begin=".625s"
-                />
+              <circle transform="rotate(225 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".625s" />
               </circle>
-              <circle
-                transform="rotate(270 12 12)"
-                cx="12"
-                cy="2"
-                r="2"
-                opacity=".1"
-              >
-                <animate
-                  attributeName="opacity"
-                  from="1"
-                  to=".1"
-                  dur="1s"
-                  repeatCount="indefinite"
-                  begin=".75s"
-                />
+              <circle transform="rotate(270 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".75s" />
               </circle>
-              <circle
-                transform="rotate(315 12 12)"
-                cx="12"
-                cy="2"
-                r="2"
-                opacity=".1"
-              >
-                <animate
-                  attributeName="opacity"
-                  from="1"
-                  to=".1"
-                  dur="1s"
-                  repeatCount="indefinite"
-                  begin=".875s"
-                />
+              <circle transform="rotate(315 12 12)" cx="12" cy="2" r="2" opacity=".1">
+                <animate attributeName="opacity" from="1" to=".1" dur="1s" repeatCount="indefinite" begin=".875s" />
               </circle>
             </svg>
           </div>
@@ -264,42 +120,28 @@
   <div *ngIf="!gamelist">
     <p class="noEvent">No events found.</p>
   </div>
-  <pagination-template
-    *ngIf="filteredEventList && filteredEventList.length > 10"
-    #pagination="paginationApi"
-    (pageChange)="p = $event"
-  >
+  <pagination-template *ngIf="filteredEventList && filteredEventList.length > 10" #pagination="paginationApi"
+    (pageChange)="p = $event">
     <ul id="pageNumberContent" class="pages">
       <li id="prev">
-        <a *ngIf="pagination.isFirstPage(); else prevTemp" class="disable"
-          >Prev</a
-        >
+        <a *ngIf="pagination.isFirstPage(); else prevTemp" class="disable">Prev</a>
         <ng-template #prevTemp>
           <a (click)="pagination.previous()">Prev</a>
         </ng-template>
       </li>
       <ng-container *ngFor="let page of pagination.pages">
         <li id="pageNumber">
-          <a
-            (click)="pagination.setCurrent(page.value)"
-            *ngIf="pagination.getCurrent() != page.value"
-            class="btn"
-            >{{ page.value }}
+          <a (click)="pagination.setCurrent(page.value)" *ngIf="pagination.getCurrent() != page.value" class="btn">{{
+            page.value }}
           </a>
-          <a
-            *ngIf="pagination.getCurrent() == page.value"
-            class="select"
-            style="pointer-events: none"
-            >{{ page.value }}
+          <a *ngIf="pagination.getCurrent() == page.value" class="select" style="pointer-events: none">{{ page.value }}
           </a>
         </li>
       </ng-container>
 
       <!-- <li id="pageNumber"><a href="javascript:void(0);">2</a></li> -->
       <li id="next">
-        <a *ngIf="pagination.isLastPage(); else nextTemp" class="disable"
-          >Next</a
-        >
+        <a *ngIf="pagination.isLastPage(); else nextTemp" class="disable">Next</a>
         <ng-template #nextTemp>
           <a (click)="pagination.next()">Next</a>
         </ng-template>

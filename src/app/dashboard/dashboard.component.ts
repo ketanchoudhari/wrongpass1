@@ -139,6 +139,10 @@ export class DashboardComponent implements OnInit {
             game.progress = Math.round((100 * event.loaded) / event.total);
           } else if (event.type === HttpEventType.Response) {
             game.showProgressBar = false;
+            const index = this.filteredEventList.findIndex((event:any) => event.eventId === game.eventId);
+            this.filteredEventList[index].videoPath = event.body.video_path
+            const index2 = this.gamelist.findIndex((event:any) => event.eventId === game.eventId);
+            this.gamelist[index2].videoPath = event.body.video_path
             this.toastServ.showInfo('Video uploaded successfully');
           }
         },
