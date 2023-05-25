@@ -37,7 +37,10 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEventList();
+    setTimeout(() => {
+      this.getEventList();
+    }, 2000); // 5000 milliseconds = 5 seconds
+
     this.isLoading;
   }
 
@@ -98,6 +101,7 @@ export class DashboardComponent implements OnInit {
           // Handle other error codes here
           console.log('Error code: ' + resp.code);
         }
+        this.ngOnInit;
       },
       (error) => {
         // Handle HTTP errors here
@@ -126,6 +130,7 @@ export class DashboardComponent implements OnInit {
         a.click();
         URL.revokeObjectURL(url);
       });
+      this.ngOnInit
   }
 
   uploadfile(game: any) {
@@ -145,6 +150,7 @@ export class DashboardComponent implements OnInit {
             this.gamelist[index2].videoPath = event.body.video_path
             this.toastServ.showInfo('Video uploaded successfully');
           }
+          this.ngOnInit;
         },
         (error: any) => {
           game.showProgressBar = false;

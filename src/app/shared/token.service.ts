@@ -29,7 +29,8 @@ export class TokenService {
   }
 
   getlocalToken(){
-    return localStorage.getItem(AUTH_TOKEN)
+    return this.cookieService.get(AUTH_TOKEN)
+    // return localStorage.getItem(AUTH_TOKEN)
   }
   async removeToken() {
     this.cookieService.delete(AUTH_TOKEN);

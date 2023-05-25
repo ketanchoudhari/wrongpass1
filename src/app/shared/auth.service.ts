@@ -46,7 +46,7 @@ export class AuthService {
   //sign out
   logout() {
     this.fireauth.signOut().then(() => {
-      localStorage.removeItem('token')
+      localStorage.clear()
       this.router.navigate(['/'])
       this.toastServ.showWarning("Logout Successfully")
     }, err => {
@@ -57,12 +57,14 @@ export class AuthService {
   registers() {
     this.registration(this.data).subscribe((resp: any) => {
       // let header = resp.token;
+      this.token.setToken(resp.token)
+      this.token.setLocalToken(resp.token)
       localStorage.setItem('token',resp.token)
        if(resp.token!=null){
          this.token.setToken(localStorage.getItem('token'))
        }
     })
-    return !!localStorage.getItem('token')
+    return this.token.getlocalToken()
   }
   authToken(){
    let tokens= localStorage.getItem('token')

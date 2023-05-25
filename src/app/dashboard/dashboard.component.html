@@ -50,6 +50,7 @@
         <th class="head-items">Event ID</th>
         <th class="head-items">Event Name</th>
         <th class="head-items">Date</th>
+        <th class="head-items">Video Status</th>
         <th class="head-items">Action</th>
       </tr>
     </thead>
@@ -62,6 +63,9 @@
         <td style="text-align: center">{{ game.eventName }}</td>
         <td style="text-align: center">
           {{ game.dateTime | date : "yyyy-MM-dd HH:mm:ss" }}
+        </td>
+        <td style="text-align: center">
+        {{game.videoStatus}}
         </td>
         <td class="download" style="text-align: center">
           <input type="file" class="file-upload" *ngIf="game.videoPath == null"
